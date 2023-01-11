@@ -20,5 +20,7 @@ class TimerController extends GetxController with GetTickerProviderStateMixin{
     animationController = AnimationController(vsync: this, duration: Duration(minutes: 20));
   }
 
+  void movingTimer() {
 
+  }
 }
