@@ -1,5 +1,8 @@
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:circular_countdown_timer/countdown_text_format.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i_see_u/modules/timer/components/component_counter.dart';
 import 'package:flutter_i_see_u/modules/timer/controller_timer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,14 +13,18 @@ class TimerPage extends GetView<TimerController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: SizedBox(
-          // height: Get.height,
+        child: Container(
+          height: Get.height,
+          color: Colors.black45.withOpacity(0.60),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _buildDropdown(),
+              SizedBox(height: 16.h),
+              CounterComponent(),
             ],
           ),
         ),
@@ -47,11 +54,26 @@ class TimerPage extends GetView<TimerController> {
             selectedItem: "Brazil",
           ),
         ),
-        IconButton(
+        ElevatedButton(
           onPressed: () {},
-          icon: const Icon(Icons.add),
           style: IconButton.styleFrom(
+            backgroundColor: Colors.white.withOpacity(0.92),
+            foregroundColor: Colors.white,
+            highlightColor: Colors.transparent,
+            shadowColor: Colors.white.withOpacity(0.2),
             minimumSize: Size(24.w, 24.w),
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
+              Text(
+                '추가',
+                style: TextStyle(color: Colors.black, fontSize: 14.sp),
+              ),
+            ],
           ),
         ),
       ],

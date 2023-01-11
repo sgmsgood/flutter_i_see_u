@@ -4,6 +4,6 @@ import 'package:get/get.dart';
 class TimerBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(() => TimerController());
+    Get.put(TimerController());
   }
 }
