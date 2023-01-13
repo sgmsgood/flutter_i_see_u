@@ -31,7 +31,7 @@ class TimerPage extends GetView<TimerController> {
             children: [
               _buildTimer(),
               SizedBox(height: 16.h),
-              _buildStartButton(),
+              _buildStartButton(context),
             ],
           ),
         ),
@@ -57,10 +57,10 @@ class TimerPage extends GetView<TimerController> {
     );
   }
 
-  Widget _buildStartButton() {
+  Widget _buildStartButton(BuildContext context) {
     return Obx(
       () => ElevatedButton(
-        onPressed: controller.movingTimer,
+        onPressed: () => controller.movingTimer(context),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           shadowColor: Colors.transparent,
