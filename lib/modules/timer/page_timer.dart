@@ -1,8 +1,4 @@
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:circular_countdown_timer/countdown_text_format.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_i_see_u/modules/timer/components/component_counter.dart';
 import 'package:flutter_i_see_u/modules/timer/controller_timer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -17,14 +13,25 @@ class TimerPage extends GetView<TimerController> {
       body: SafeArea(
         child: Container(
           height: Get.height,
-          color: Colors.black45.withOpacity(0.60),
+          width: 360.w,
+          // color: Colors.black45.withOpacity(0.60),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            colors: [
+              Colors.black87,
+              Colors.grey,
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          )),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildDropdown(),
+              _buildTimer(),
               SizedBox(height: 16.h),
-              CounterComponent(),
+              _buildStartButton(),
             ],
           ),
         ),
@@ -32,51 +39,44 @@ class TimerPage extends GetView<TimerController> {
     );
   }
 
-  Widget _buildDropdown() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 160.w,
-          child: DropdownSearch<String>(
-            popupProps: PopupProps.menu(
-              showSelectedItems: true,
-              disabledItemFn: (String s) => s.startsWith('I'),
+  Widget _buildTimer() {
+    return Container(
+      width: 280.w,
+      height: 280.w,
+      decoration: BoxDecoration(
+          color: Colors.transparent,
+          border: Border.all(color: Colors.white),
+          shape: BoxShape.circle),
+      alignment: Alignment.center,
+      child: Obx(
+        () => Text(
+          controller.timeValue,
+          style: TextStyle(color: Colors.white, fontSize: 100.sp),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStartButton() {
+    return Obx(
+      () => ElevatedButton(
+        onPressed: controller.movingTimer,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          shadowColor: Colors.transparent,
+          minimumSize: Size(112.w, 16.h),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0), // radius you want
+            side: const BorderSide(
+              color: Colors.transparent, //color
             ),
-            items: ["Brazil", "Italia (Disabled)", "Tunisia", 'Canada'],
-            dropdownDecoratorProps: DropDownDecoratorProps(
-              dropdownSearchDecoration: InputDecoration(
-                hintText: "집중할 항목을 선택하세요.",
-              ),
-            ),
-            onChanged: print,
-            selectedItem: "Brazil",
           ),
         ),
-        ElevatedButton(
-          onPressed: () {},
-          style: IconButton.styleFrom(
-            backgroundColor: Colors.white.withOpacity(0.92),
-            foregroundColor: Colors.white,
-            highlightColor: Colors.transparent,
-            shadowColor: Colors.white.withOpacity(0.2),
-            minimumSize: Size(24.w, 24.w),
-          ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.add,
-                color: Colors.black,
-              ),
-              Text(
-                '추가',
-                style: TextStyle(color: Colors.black, fontSize: 14.sp),
-              ),
-            ],
-          ),
+        child: Text(
+          controller.isCountingValue,
+          style: TextStyle(color: Colors.black, fontSize: 16.sp),
         ),
-      ],
+      ),
     );
   }
 }

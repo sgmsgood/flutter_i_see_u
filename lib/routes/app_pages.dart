@@ -1,5 +1,4 @@
 import 'package:flutter_i_see_u/modules/timer/binding_timer.dart';
-import 'package:flutter_i_see_u/modules/timer/components/component_counter.dart';
 import 'package:flutter_i_see_u/modules/timer/page_timer.dart';
 import 'package:get/get.dart';
 
@@ -14,10 +13,10 @@ class AppPages {
       page: () => const TimerPage(),
       binding: TimerBinding(),
     ),
-    GetPage(
-      name: Routes.timer,
-      page: () => CounterComponent(),
-      binding: TimerBinding(),
-    ),
+    // GetPage(
+    //   name: Routes.timerComponent,
+    //   page: () => CounterComponent(),
+    //   binding: TimerBinding(),
+    // ),
   ];
 }

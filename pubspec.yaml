@@ -40,6 +40,7 @@ dependencies:
   rxdart: ^0.27.7
   http: ^0.13.5
   # components
+  loading_animation_widget: ^1.2.0+4
   circular_countdown_timer: ^0.2.3
   dropdown_search: ^5.0.5
 
