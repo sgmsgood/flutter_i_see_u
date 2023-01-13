@@ -49,7 +49,6 @@ class TimerController extends GetxController with GetTickerProviderStateMixin {
     }
 
     _setIsCounting();
-    _buildSetInterval(context);
   }
 
   void countTime() {
@@ -61,34 +60,5 @@ class TimerController extends GetxController with GetTickerProviderStateMixin {
 
   void _setIsCounting() {
     _isCounting.value = animationController.isAnimating ? 'stop' : 'play';
-  }
-
-  void _buildSetInterval(BuildContext context) {
-    // showDialog(
-    //     context: context,
-    //     builder: (_) => FromToTimePicker(
-    //       onTab: (from, to) {
-    //         print('from $from to $to');
-    //       },
-    //     ));
-    Get.dialog(
-      AlertDialog(
-        title: Text('집중할 시간을 선택해주세요.', style: TextStyle(fontSize: 15.sp)),
-        content: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Container(color: Color(0xFFF1EEF1), width: 200.w, height: 100.w),
-            SizedBox(
-              width: 8.w,
-            ),
-            Text('min', style: TextStyle(fontSize: 12.sp))
-          ],
-        ),
-        actions: [
-          TextButton(onPressed: () => Get.back(), child: Text('취소', style: TextStyle(fontSize: 12.sp))),
-          TextButton(onPressed: () {}, child: Text('확인', style: TextStyle(fontSize: 12.sp)))
-        ],
-      ),
-    );
   }
 }
