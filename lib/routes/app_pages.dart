@@ -1,4 +1,5 @@
 import 'package:flutter_i_see_u/modules/timer/binding_timer.dart';
+import 'package:flutter_i_see_u/modules/timer/components/alert_setting_time.dart';
 import 'package:flutter_i_see_u/modules/timer/page_timer.dart';
 import 'package:get/get.dart';
 
@@ -13,10 +14,10 @@ class AppPages {
       page: () => const TimerPage(),
       binding: TimerBinding(),
     ),
-    // GetPage(
-    //   name: Routes.timerComponent,
-    //   page: () => CounterComponent(),
-    //   binding: TimerBinding(),
-    // ),
+    GetPage(
+      name: Routes.settingTimeAlert,
+      page: () => const SettingTimeAlert(),
+      binding: TimerBinding(),
+    ),
   ];
 }

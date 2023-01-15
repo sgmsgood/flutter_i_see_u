@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i_see_u/modules/timer/components/component_set_time.dart';
+import 'package:flutter_i_see_u/modules/timer/components/alert_setting_time.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:from_to_time_picker/from_to_time_picker.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +10,7 @@ class TimerController extends GetxController with GetTickerProviderStateMixin {
 
   late AnimationController animationController;
 
-  final _time = ''.obs;
+  final _time = '0:00'.obs;
 
   String get timeValue => _time.value;
 
@@ -17,19 +18,35 @@ class TimerController extends GetxController with GetTickerProviderStateMixin {
 
   String get isCountingValue => _isCounting.value;
 
-  var isAnimatingTimer = false.obs;
+  var _isAnimatingTimer = false.obs;
 
-  bool get isAnimatingTimerValue => isAnimatingTimer.value;
+  bool get isAnimatingTimerValue => _isAnimatingTimer.value;
+
+  final _settingMinutes = 25.obs;
+
+  int get settingMinutesValue => _settingMinutes.value;
+
+  List<int> get specificMinList => [5, 10, 30];
+
+  late FToast _fToast;
 
   @override
   void onInit() {
+    animationController = AnimationController(
+        vsync: this,
+        duration: Duration(minutes: _settingMinutes.value),
+        value: 1.0);
+    _countTime();
     super.onInit();
-    animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 5));
+  }
+
+  @override
+  void onReady() {
     animationController.addListener(() {
-      countTime();
+      _countTime();
       _setIsCounting();
     });
+    super.onReady();
   }
 
   @override
@@ -48,17 +65,77 @@ class TimerController extends GetxController with GetTickerProviderStateMixin {
               : animationController.value);
     }
 
+    _setIsCountingButtonText();
     _setIsCounting();
   }
 
-  void countTime() {
-    Duration duration = (animationController.duration ?? Duration(seconds: 0)) *
-        (animationController.value);
-    _time.value =
-        '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+  void _countTime() {
+    Duration duration =
+        (animationController.duration ?? const Duration(minutes: 25)) *
+            (animationController.value);
+
+    var hour = duration.inHours > 0 ? duration.inHours : 0;
+    var dot = hour > 0 ? ':' : '';
+    var min = (duration.inMinutes % 60).toString().padLeft(2, '0');
+    var second = (duration.inSeconds % 60).toString().padLeft(2, '0');
+
+    _time.value = '${hour > 0 ? hour : ''}$dot$min:$second';
+  }
+
+  void _setIsCountingButtonText() {
+    _isCounting.value = animationController.isAnimating ? '정지' : '시작하기';
   }
 
   void _setIsCounting() {
-    _isCounting.value = animationController.isAnimating ? 'stop' : 'play';
+    _isAnimatingTimer.value = animationController.isAnimating;
+  }
+
+  void addOneMinute() {
+    if (_settingMinutes.value >= 180) {
+      return;
+    }
+
+    _settingMinutes.value++;
+  }
+
+  void reduceOneMinute() {
+    if (_settingMinutes.value < 2) {
+      return;
+    }
+
+    _settingMinutes.value--;
+  }
+
+  void addSpecificMinutes(int min) {
+    _settingMinutes.value += min;
+
+    if (_settingMinutes.value > 180) {
+      _settingMinutes.value -= min;
+    }
+  }
+
+  void updateTimerMin() {
+    animationController.duration = Duration(
+        minutes: _settingMinutes.value,
+        seconds: 0,
+        milliseconds: 0,
+        microseconds: 0);
+    animationController.value = 1.0;
+    _countTime();
+  }
+
+  void resetTimerMin() {
+    _settingMinutes.value = 25;
+  }
+
+  void showToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Color(0xFFf3e5f5),
+        textColor: Colors.black,
+        fontSize: 16.sp);
   }
 }

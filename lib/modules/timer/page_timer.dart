@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_i_see_u/modules/timer/components/component_set_time.dart';
+import 'package:flutter_i_see_u/modules/timer/components/alert_setting_time.dart';
 import 'package:flutter_i_see_u/modules/timer/controller_timer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class TimerPage extends GetView<TimerController> {
@@ -41,20 +42,23 @@ class TimerPage extends GetView<TimerController> {
   }
 
   Widget _buildTimer() {
-    return InkWell(
-      onTap: () => Get.dialog(SetTimeComponent()),
-      child: Container(
-        width: 280.w,
-        height: 280.w,
-        decoration: BoxDecoration(
-            color: Colors.transparent,
-            border: Border.all(color: Colors.white),
-            shape: BoxShape.circle),
-        alignment: Alignment.center,
-        child: Obx(
-          () => Text(
+    return Obx(
+      () => InkWell(
+        onTap: !controller.isAnimatingTimerValue
+            ? () =>
+                Get.dialog(barrierDismissible: false, const SettingTimeAlert())
+            : () => controller.showToast('타이머를 멈추고 설정해주세요.🦄'),
+        child: Container(
+          width: 280.w,
+          height: 280.w,
+          decoration: BoxDecoration(
+              color: Colors.transparent,
+              border: Border.all(color: Colors.white),
+              shape: BoxShape.circle),
+          alignment: Alignment.center,
+          child: Text(
             controller.timeValue,
-            style: TextStyle(color: Colors.white, fontSize: 100.sp),
+            style: TextStyle(color: Colors.white, fontSize: 80.sp),
           ),
         ),
       ),
