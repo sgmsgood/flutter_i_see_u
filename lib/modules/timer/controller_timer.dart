@@ -116,10 +116,7 @@ class TimerController extends GetxController with GetTickerProviderStateMixin {
 
   void updateTimerMin() {
     animationController.duration = Duration(
-        minutes: _settingMinutes.value,
-        seconds: 0,
-        milliseconds: 0,
-        microseconds: 0);
+        minutes: _settingMinutes.value);
     animationController.value = 1.0;
     _countTime();
   }
