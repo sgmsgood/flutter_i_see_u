@@ -28,7 +28,7 @@ class TimerController extends GetxController with GetTickerProviderStateMixin {
 
   List<int> get specificMinList => [5, 10, 30];
 
-  late FToast _fToast;
+  List<String> get categoryList => ['운동', '공시'];
 
   @override
   void onInit() {
