@@ -30,6 +30,11 @@ class TimerController extends GetxController with GetTickerProviderStateMixin {
 
   List<String> get categoryList => ['운동', '공시', '수능', '이직'];
 
+  final _selectedCategoryIndex = 0.obs;
+
+  int get selectedCategoryIndexValue => _selectedCategoryIndex.value;
+
+
   @override
   void onInit() {
     animationController = AnimationController(
@@ -134,5 +139,9 @@ class TimerController extends GetxController with GetTickerProviderStateMixin {
         backgroundColor: Color(0xFFf3e5f5),
         textColor: Colors.black,
         fontSize: 16.sp);
+  }
+
+  void setSelectedCategoryIndex(int index) {
+    _selectedCategoryIndex.value = index;
   }
 }
