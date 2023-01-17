@@ -35,7 +35,14 @@ class TimerPage extends GetView<TimerController> {
             children: [
               _buildCategoryRadio(),
               SizedBox(height: 4.h),
-              DropDownButton(subjectsList: const ["Brazil", "Italia (Disabled)", "Tunisia", 'Canada'],),
+              DropDownButton(
+                subjectsList: const [
+                  "Brazil",
+                  "Italia (Disabled)",
+                  "Tunisia",
+                  'Canada'
+                ],
+              ),
               SizedBox(height: 10.h),
               _buildTimer(),
               SizedBox(height: 16.h),
@@ -54,10 +61,12 @@ class TimerPage extends GetView<TimerController> {
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () => controller.setSelectedCategoryIndex(index),
-              child: Obx(
-                () => Container(
+            return Obx(
+              () => InkWell(
+                onTap: !controller.isAnimatingTimerValue
+                    ? () => controller.setSelectedCategoryIndex(index)
+                    : () => controller.showToast('타이머를 멈추고 설정해주세요.🦄'),
+                child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   height: 16.h,
                   decoration: BoxDecoration(
@@ -69,7 +78,11 @@ class TimerPage extends GetView<TimerController> {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    border: Border.all(color: controller.selectedCategoryIndexValue == index ? Color(0xFFFF8D87) : Colors.transparent, width: 2.w),
+                    border: Border.all(
+                        color: controller.selectedCategoryIndexValue == index
+                            ? Color(0xFFFF8D87)
+                            : Colors.transparent,
+                        width: 2.w),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   alignment: Alignment.center,

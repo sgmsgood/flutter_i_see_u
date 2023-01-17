@@ -133,7 +133,7 @@ class TimerController extends GetxController with GetTickerProviderStateMixin {
   void showToast(String msg) {
     Fluttertoast.showToast(
         msg: msg,
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 1,
         backgroundColor: Color(0xFFf3e5f5),
