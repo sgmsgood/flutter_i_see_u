@@ -20,6 +20,7 @@ class SettingTimeAlert extends GetView<TimerController> {
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Stack(
                 children: [
@@ -35,7 +36,7 @@ class SettingTimeAlert extends GetView<TimerController> {
               SizedBox(
                 width: 8.w,
               ),
-              Text('min', style: TextStyle(fontSize: 12.sp))
+              Text('min', style: TextStyle(fontSize: 20.sp))
             ],
           ),
           SizedBox(
@@ -45,9 +46,8 @@ class SettingTimeAlert extends GetView<TimerController> {
         ],
       ),
       contentPadding:
-          EdgeInsets.only(left: 16.w, right: 16.w, top: 8.h, bottom: 0),
+          EdgeInsets.only(left: 18.w, right: 18.w, top: 8.h, bottom: 0),
       actionsPadding: EdgeInsets.only(top: 4.h),
-
       actions: _buildActionButtons(),
     );
   }
@@ -55,8 +55,8 @@ class SettingTimeAlert extends GetView<TimerController> {
   Widget _buildCountNumInput() {
     return Container(
       color: const Color(0xFFF1EEF1),
-      width: 176.w,
-      height: 80.w,
+      width: 112.w,
+      height: 48.w,
       alignment: Alignment.center,
       child: Obx(
         () => Text(
@@ -95,7 +95,7 @@ class SettingTimeAlert extends GetView<TimerController> {
                   Visibility(
                     visible: i == controller.specificMinList.length - 1,
                     child: SizedBox(
-                      width: 8.w,
+                      width: 4.w,
                     ),
                   ),
                 ],
@@ -114,7 +114,8 @@ class SettingTimeAlert extends GetView<TimerController> {
             borderRadius: BorderRadius.circular(8)),
         child: Text(
           "$min min",
-          style: const TextStyle(
+          style: TextStyle(
+            fontSize: 14.sp,
             color: Color(0xFF7A7779),
           ),
         ),
