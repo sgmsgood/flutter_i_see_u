@@ -2,9 +2,9 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i_see_u/modules/timer/components/alert_setting_time.dart';
 import 'package:flutter_i_see_u/modules/timer/components/button_drop_down.dart';
+import 'package:flutter_i_see_u/modules/timer/components/button_menu.dart';
 import 'package:flutter_i_see_u/modules/timer/controller_timer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class TimerPage extends GetView<TimerController> {
@@ -19,34 +19,57 @@ class TimerPage extends GetView<TimerController> {
           height: Get.height,
           width: 360.w,
           decoration: const BoxDecoration(
-              gradient: LinearGradient(
-            colors: [
-              Colors.black87,
-              Colors.grey,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          )),
-          padding: EdgeInsets.only(top: 24.h),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.center,
+            gradient: LinearGradient(
+              colors: [
+                Colors.black87,
+                Colors.grey,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: Stack(
             children: [
-              _buildCategoryRadio(),
-              SizedBox(height: 4.h),
-              DropDownButton(
-                subjectsList: const [
-                  "Brazil",
-                  "Italia (Disabled)",
-                  "Tunisia",
-                  'Canada'
-                ],
+              Positioned(
+                top: 24.h,
+                left: 0,
+                right: 0,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildCategoryRadio(),
+                    SizedBox(height: 4.h),
+                    DropDownButton(
+                      subjectsList: const [
+                        "Brazil",
+                        "Italia (Disabled)",
+                        "Tunisia",
+                        'Canada'
+                      ],
+                    ),
+                    SizedBox(height: 10.h),
+                    _buildTimer(),
+                    SizedBox(height: 16.h),
+                    _buildStartButton(context),
+                  ],
+                ),
               ),
-              SizedBox(height: 10.h),
-              _buildTimer(),
-              SizedBox(height: 16.h),
-              _buildStartButton(context),
+              // Positioned(
+              //   top: 4.h,
+              //   right: 8.w,
+              //   child: MenuButton(
+              //     iconAsset: 'assets/ic_setting.png',
+              //     buttonSize: 40.w,
+              //   ),
+              // ),
+              Positioned(
+                bottom: 10.h,
+                left: 0,
+                right: 0,
+                child: _buildButtons(),
+              ),
             ],
           ),
         ),
@@ -147,6 +170,30 @@ class TimerPage extends GetView<TimerController> {
           style: TextStyle(color: Colors.black, fontSize: 16.sp),
         ),
       ),
+    );
+  }
+
+  Widget _buildButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        MenuButton(
+          iconAsset: 'assets/ic_graph.png',
+          buttonTitle: '통계',
+        ),
+        MenuButton(
+          iconAsset: 'assets/ic_award.png',
+          buttonTitle: '랭킹',
+        ),
+        MenuButton(
+          iconAsset: 'assets/ic_full.png',
+          buttonTitle: '전체 화면',
+        ),
+        MenuButton(
+          iconAsset: 'assets/ic_setting.png',
+          buttonTitle: '설정',
+        ),
+      ],
     );
   }
 }
