@@ -178,18 +178,22 @@ class TimerPage extends GetView<TimerController> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         MenuButton(
+          onEvent: () {},
           iconAsset: 'assets/ic_graph.png',
           buttonTitle: '통계',
         ),
         MenuButton(
+          onEvent: () {},
           iconAsset: 'assets/ic_award.png',
           buttonTitle: '랭킹',
         ),
         MenuButton(
+          onEvent: () {},
           iconAsset: 'assets/ic_full.png',
           buttonTitle: '전체 화면',
         ),
         MenuButton(
+          onEvent: () => Get.toNamed('/settings'),
           iconAsset: 'assets/ic_setting.png',
           buttonTitle: '설정',
         ),

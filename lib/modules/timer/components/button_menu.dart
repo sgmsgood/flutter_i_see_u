@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuButton extends StatelessWidget {
+  VoidCallback onEvent;
   double? buttonSize;
   String iconAsset;
   String buttonTitle;
 
   MenuButton(
-      {required this.iconAsset,
+      {required this.onEvent,
+      required this.iconAsset,
       required this.buttonTitle,
       this.buttonSize,
       Key? key})
@@ -21,7 +23,7 @@ class MenuButton extends StatelessWidget {
       child: Column(
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: onEvent,
             icon: Image.asset(
               iconAsset,
               color: Colors.white,
@@ -29,7 +31,10 @@ class MenuButton extends StatelessWidget {
               height: 48.w,
             ),
           ),
-          Text(buttonTitle, style: TextStyle(color: Colors.white),)
+          Text(
+            buttonTitle,
+            style: TextStyle(color: Colors.white),
+          )
         ],
       ),
     );
