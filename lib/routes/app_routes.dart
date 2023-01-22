@@ -5,5 +5,6 @@ abstract class Routes {
   static const timer = '/timer';
   static const settingTimeAlert = '/settingTimeAlert';
   static const settings = '/settings';
+  static const settingCategory = '/settingCategory';
   static const analyse = '/analyse';
 }
