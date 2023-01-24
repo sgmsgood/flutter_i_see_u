@@ -6,9 +6,12 @@ class CategoryController extends GetxController {
 
  Map<String, List<String>> get categoryValue => _categoryMap;
 
+ final _categoryTitles = ['수능', '공무원 시험', '공인중개사', '토익', '한국사'].obs;
+
+ List<String> get categoryTitlesValue => _categoryTitles;
+
  void addCategory(String category) {
   _categoryMap.addAll({category: []});
-  print("@!!---------------------");
  }
 
  @override
