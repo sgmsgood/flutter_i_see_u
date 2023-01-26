@@ -45,7 +45,7 @@ dependencies:
   from_to_time_picker: ^1.1.1
   dropdown_button2: ^1.9.2
   font_awesome_flutter: ^10.3.0
-  cupertino_stepper: ^0.2.1
+  enhance_stepper: ^0.1.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

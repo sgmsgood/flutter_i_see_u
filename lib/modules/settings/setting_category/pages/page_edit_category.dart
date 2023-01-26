@@ -1,6 +1,7 @@
-import 'package:cupertino_stepper/cupertino_stepper.dart';
+import 'package:enhance_stepper/enhance_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i_see_u/modules/settings/setting_category/controller_category.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class EditCategoryPage extends GetView<CategoryController> {
@@ -17,28 +18,35 @@ class EditCategoryPage extends GetView<CategoryController> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Obx(
-            () => CupertinoStepper(
-              currentStep: controller.editCurrentIndexValue,
-              onStepTapped: controller.setEditCurrentIndex,
-              steps: [
-                Step(
-                  title: Text('카테고리 추가'),
-                  content: Container(
-                    width: 100,
-                    height: 100,
-                    child: Text('zzzzzzztq'),
+            () => SizedBox(
+              child: EnhanceStepper(
+                currentStep: controller.editCurrentIndexValue,
+                onStepTapped: controller.setEditCurrentIndex,
+                controlsBuilder: (context, details) => Container(),
+                steps: [
+                  _buildStep(
+                    title: '카테고리 추가',
+                    subtitle: '(필수)',
+                    content: Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.pink,
+                      child: Text('zzzzzzztq'),
+                    ),
                   ),
-                ),
-                Step(
-                  title: Text('종목 추가'),
-                  subtitle: null,
-                  content: Container(
-                    width: 100,
-                    height: 100,
-                    child: Text('zzzzzz12314ztq'),
+                  _buildStep(
+                    title: '종목 추가',
+                    subtitle: '(선택)',
+                    content: Container(
+                      alignment: Alignment.centerLeft,
+                      width: Get.width,
+                      height: 100.w,
+                      color: Colors.yellow,
+                      child: Text('zzzzzz12314ztq'),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -46,15 +54,16 @@ class EditCategoryPage extends GetView<CategoryController> {
     );
   }
 
-  Step _buildStep(String title, Widget contents) {
-    return Step(
-      title: Text('1'),
-      subtitle: null,
-      content: Container(
-        width: 100,
-        height: 100,
-        child: Text('zzzzzzztq'),
-      ),
-    );
+  EnhanceStep _buildStep(
+      {required String title, required Widget content, String? subtitle}) {
+    return EnhanceStep(
+        icon: Container(color: Colors.lightGreen, child: Icon(Icons.add)),
+        title: Text(title),
+        subtitle: Text(
+          subtitle ?? '',
+          style: TextStyle(fontSize: 10.sp),
+        ),
+        content: content,
+        state: StepState.editing);
   }
 }
