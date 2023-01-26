@@ -18,35 +18,63 @@ class EditCategoryPage extends GetView<CategoryController> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Obx(
-            () => SizedBox(
-              child: EnhanceStepper(
-                currentStep: controller.editCurrentIndexValue,
-                onStepTapped: controller.setEditCurrentIndex,
-                controlsBuilder: (context, details) => Container(),
-                steps: [
-                  _buildStep(
-                    title: '카테고리 추가',
-                    subtitle: '(필수)',
-                    content: Container(
-                      width: 100,
-                      height: 100,
-                      color: Colors.pink,
-                      child: Text('zzzzzzztq'),
+            () => EnhanceStepper(
+              physics: const BouncingScrollPhysics(),
+              currentStep: controller.editCurrentIndexValue,
+              onStepTapped: controller.setEditCurrentIndex,
+              controlsBuilder: (c, d) => const SizedBox(),
+              steps: [
+                _buildStep(
+                  title: '카테고리 추가',
+                  subtitle: '(필수)',
+                  content: Container(
+                    width: 300.w,
+                    // height: 50.h,
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                              hintText: '추가할 카테고리를 입력하세요.'),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: controller.setNextStep,
+                              child: const Text('다음'),
+                            ),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text('완료'),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  _buildStep(
-                    title: '종목 추가',
-                    subtitle: '(선택)',
-                    content: Container(
-                      alignment: Alignment.centerLeft,
-                      width: Get.width,
-                      height: 100.w,
-                      color: Colors.yellow,
-                      child: Text('zzzzzz12314ztq'),
+                ),
+                _buildStep(
+                  title: '종목 추가',
+                  subtitle: '(선택)',
+                  content: Container(
+                    alignment: Alignment.centerLeft,
+                    width: Get.width,
+                    height: 1000.h,
+                    color: Colors.yellow,
+                    child: Column(
+                      children: [
+                        Text('zzzzzz12314ztq'),
+
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
