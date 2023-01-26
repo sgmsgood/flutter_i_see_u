@@ -10,8 +10,16 @@ class CategoryController extends GetxController {
 
  List<String> get categoryTitlesValue => _categoryTitles;
 
+ final _editCurrentIndex = 0.obs;
+
+ int get editCurrentIndexValue => _editCurrentIndex.value;
+
  void addCategory(String category) {
   _categoryMap.addAll({category: []});
+ }
+
+ void setEditCurrentIndex(int index) {
+  _editCurrentIndex.value = index;
  }
 
  @override

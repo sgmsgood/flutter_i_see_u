@@ -1,7 +1,8 @@
 import 'package:flutter_i_see_u/modules/settings/binding_settings.dart';
 import 'package:flutter_i_see_u/modules/settings/page_settings.dart';
 import 'package:flutter_i_see_u/modules/settings/setting_category/binding_category.dart';
-import 'package:flutter_i_see_u/modules/settings/setting_category/page_category.dart';
+import 'package:flutter_i_see_u/modules/settings/setting_category/pages/page_category.dart';
+import 'package:flutter_i_see_u/modules/settings/setting_category/pages/page_edit_category.dart';
 import 'package:flutter_i_see_u/modules/timer/binding_timer.dart';
 import 'package:flutter_i_see_u/modules/timer/components/alert_setting_time.dart';
 import 'package:flutter_i_see_u/modules/timer/page_timer.dart';
@@ -31,6 +32,11 @@ class AppPages {
     GetPage(
       name: Routes.settingCategory,
       page: () => const CategoryPage(),
+      binding: CategoryBinding(),
+    ),
+    GetPage(
+      name: Routes.editCategory,
+      page: () => const EditCategoryPage(),
       binding: CategoryBinding(),
     ),
   ];
