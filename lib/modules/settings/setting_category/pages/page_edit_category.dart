@@ -1,11 +1,13 @@
 import 'package:enhance_stepper/enhance_stepper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i_see_u/components/button_icon_square_opacity.dart';
+import 'package:flutter_i_see_u/components/text_field_round_border.dart';
 import 'package:flutter_i_see_u/modules/settings/setting_category/controller_category.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class EditCategoryPage extends GetView<CategoryController> {
-  const EditCategoryPage({super.key});
+  EditCategoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,39 +25,17 @@ class EditCategoryPage extends GetView<CategoryController> {
               currentStep: controller.editCurrentIndexValue,
               onStepTapped: controller.setEditCurrentIndex,
               controlsBuilder: (c, d) => const SizedBox(),
+              stepIconSize: 40.w,
               steps: [
                 _buildStep(
-                  title: '카테고리 추가',
+                  // title: '카테고리 추가',
+                  title: controller.categoryNameValue,
                   subtitle: '(필수)',
                   content: Container(
                     width: 300.w,
                     // height: 50.h,
                     alignment: Alignment.topLeft,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                              hintText: '추가할 카테고리를 입력하세요.'),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: controller.setNextStep,
-                              child: const Text('다음'),
-                            ),
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text('완료'),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    child: _buildAddCategory(),
                   ),
                 ),
                 _buildStep(
@@ -64,14 +44,7 @@ class EditCategoryPage extends GetView<CategoryController> {
                   content: Container(
                     alignment: Alignment.centerLeft,
                     width: Get.width,
-                    height: 1000.h,
-                    color: Colors.yellow,
-                    child: Column(
-                      children: [
-                        Text('zzzzzz12314ztq'),
-
-                      ],
-                    ),
+                    child: _buildAddSubCategory(),
                   ),
                 ),
               ],
@@ -82,10 +55,88 @@ class EditCategoryPage extends GetView<CategoryController> {
     );
   }
 
+  Widget _buildAddCategory() {
+    return Column(
+      children: [
+        TextFieldRoundBorder(
+          hintText: '추가할 카테고리를 입력하세요.',
+          onChangedEvent: controller.setCategoryName,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: controller.setNextStep,
+              child: const Text('다음'),
+            ),
+            TextButton(
+              onPressed: () => controller.addCategory(),
+              child: const Text('저장'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAddSubCategory() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              flex: 9,
+              child: TextFieldRoundBorder(
+                hintText: '추가할 카테고리를 입력하세요.',
+                onChangedEvent: controller.setCategoryName,
+              ),
+            ),
+            SizedBox(
+              width: 4.w,
+            ),
+            Expanded(
+              flex: 1,
+              child: IconSquareOpacityButton(
+                icon: Icons.add,
+                backgroundColor: Colors.black.withOpacity(0.4),
+                buttonSize: Size(32.w, 32.w),
+                onEvent: () {
+                  print("@!!-------puyingpuying");
+                },
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: controller.setNextStep,
+              child: const Text('다음'),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: const Text('저장'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   EnhanceStep _buildStep(
       {required String title, required Widget content, String? subtitle}) {
     return EnhanceStep(
-        icon: Container(color: Colors.lightGreen, child: Icon(Icons.add)),
+        icon: Container(
+            width: 40.w,
+            height: 40.w,
+            decoration: const BoxDecoration(
+              color: Colors.lightGreen,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.edit)),
         title: Text(title),
         subtitle: Text(
           subtitle ?? '',

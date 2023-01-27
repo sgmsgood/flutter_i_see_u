@@ -14,9 +14,37 @@ class CategoryController extends GetxController {
 
   int get editCurrentIndexValue => _editCurrentIndex.value;
 
-  void addCategory(String category) {
-    _categoryMap.addAll({category: []});
+  // final categoryNameArgument = Get.arguments["categoryName"] ?? '';
+
+  final _categoryName = ''.obs;
+
+  String get categoryNameValue => _categoryName.value;
+
+  @override
+  void onInit() {
+    super.onInit();
   }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  void addCategory() {
+    if (_categoryName.value.isEmpty) {
+      return;
+    }
+
+    _categoryMap.addAll({_categoryName.value: []});
+  }
+
+  void setCategoryName(String categoryName) {
+    _categoryName.value = categoryName;
+  }
+
+  // List<String> _getSubCategoryList() {
+  //
+  // }
 
   void setEditCurrentIndex(int index) {
     _editCurrentIndex.value = index;
@@ -30,4 +58,8 @@ class CategoryController extends GetxController {
   String toString() {
     return 'CategoryController{_categoryMap: $_categoryMap}';
   }
+}
+
+enum CategoryArguments{
+  categoryName,
 }

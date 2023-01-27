@@ -36,7 +36,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.editCategory,
-      page: () => const EditCategoryPage(),
+      page: () => EditCategoryPage(),
       binding: CategoryBinding(),
     ),
   ];

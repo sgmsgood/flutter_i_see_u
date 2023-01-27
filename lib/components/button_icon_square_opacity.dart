@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class IconSquareOpacityButton extends StatelessWidget {
   IconData? icon;
+  Color? iconColor;
   Color? backgroundColor;
   VoidCallback? onEvent;
   Size? buttonSize;
@@ -18,11 +19,11 @@ class IconSquareOpacityButton extends StatelessWidget {
           padding: EdgeInsets.zero,
           minimumSize: buttonSize ?? Size(45.w, 45.w),
           maximumSize: buttonSize ?? Size(45.w, 45.w),
-          backgroundColor: Colors.white.withOpacity(0.6),
+          backgroundColor: backgroundColor ?? Colors.white.withOpacity(0.6),
           shadowColor: Colors.transparent),
       child: Icon(
         icon ?? Icons.arrow_back,
-        color: backgroundColor ?? Colors.white,
+        color: iconColor ?? Colors.white,
       ),
     );
   }

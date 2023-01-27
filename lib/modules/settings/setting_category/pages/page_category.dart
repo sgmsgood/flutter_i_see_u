@@ -49,9 +49,11 @@ class CategoryPage extends GetView<CategoryController> {
             SizedBox(
               width: 8.w,
             ),
-            Text(
-              '${controller.categoryValue.keys.toList().length}',
-              style: TextStyle(color: Colors.grey),
+            Obx(
+              () => Text(
+                '${controller.categoryValue.keys.toList().length}',
+                style: TextStyle(color: Colors.grey),
+              ),
             )
           ],
         ),
@@ -139,11 +141,15 @@ class CategoryPage extends GetView<CategoryController> {
     return Column(
       children: list
           .map(
-            (e) => Container(
-              width: double.infinity,
-              height: 80.h,
-              child: Card(
-                child: Text(e),
+            (e) => InkWell(
+              onTap: () => Get.toNamed(Routes.editCategory,
+                  arguments: {"categoryName": e}),
+              child: Container(
+                width: double.infinity,
+                height: 80.h,
+                child: Card(
+                  child: Text(e),
+                ),
               ),
             ),
           )
