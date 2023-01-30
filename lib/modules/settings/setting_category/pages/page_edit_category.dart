@@ -80,42 +80,71 @@ class EditCategoryPage extends GetView<CategoryController> {
   }
 
   Widget _buildAddSubCategory() {
+    print("@!!---controller.subcategasdafs::::::::::::::::oriesValue: ${controller.subcategoriesValue?.length}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              flex: 9,
-              child: TextFieldRoundBorder(
-                hintText: '추가할 카테고리를 입력하세요.',
-                onChangedEvent: controller.setCategoryName,
-              ),
-            ),
-            SizedBox(
-              width: 4.w,
-            ),
-            Expanded(
-              flex: 1,
-              child: IconSquareOpacityButton(
-                icon: Icons.add,
-                backgroundColor: Colors.black.withOpacity(0.4),
-                buttonSize: Size(32.w, 32.w),
-                onEvent: () {
-                  print("@!!-------puyingpuying");
-                },
-              ),
-            ),
-          ],
+        Obx(
+          () => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: (controller.subcategoriesValue?.isNotEmpty ?? false)
+                ? controller.subcategoriesValue
+                        ?.map(
+                          (e) => Row(
+                            children: [
+                              Expanded(
+                                flex: 9,
+                                child: TextFieldRoundBorder(
+                                  hintText: '추가할 카테고리를 입력하세요.',
+                                  onChangedEvent: controller.setCategoryName,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 4.w,
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: IconSquareOpacityButton(
+                                    icon: Icons.add,
+                                    backgroundColor:
+                                        Colors.black.withOpacity(0.4),
+                                    buttonSize: Size(32.w, 32.w),
+                                    onEvent: controller.addSubcategory),
+                              ),
+                            ],
+                          ),
+                        )
+                        .toList() ??
+                    []
+                : [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 9,
+                          child: TextFieldRoundBorder(
+                            hintText: '추가할 카테고리를 입력하세요.',
+                            onChangedEvent: controller.setCategoryName,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 4.w,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: IconSquareOpacityButton(
+                              icon: Icons.add,
+                              backgroundColor: Colors.black.withOpacity(0.4),
+                              buttonSize: Size(32.w, 32.w),
+                              onEvent: controller.addSubcategory),
+                        ),
+                      ],
+                    ),
+                  ],
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            TextButton(
-              onPressed: controller.setNextStep,
-              child: const Text('다음'),
-            ),
             TextButton(
               onPressed: () {},
               child: const Text('저장'),

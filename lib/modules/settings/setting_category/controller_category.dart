@@ -16,6 +16,10 @@ class CategoryController extends GetxController {
 
   // final categoryNameArgument = Get.arguments["categoryName"] ?? '';
 
+  final _subcategories = [].obs;
+
+  List<String>? get subcategoriesValue => _getSubCategoryList();
+
   final _categoryName = ''.obs;
 
   String get categoryNameValue => _categoryName.value;
@@ -42,9 +46,27 @@ class CategoryController extends GetxController {
     _categoryName.value = categoryName;
   }
 
-  // List<String> _getSubCategoryList() {
-  //
-  // }
+  List<String> _getSubCategoryList() {
+    var category = Get.arguments['categoryName'];
+    if (category == null) {
+      return [];
+    }
+    return _categoryMap[category]?.map((e) => e.toString()).toList() ?? [];
+  }
+
+  void addSubcategory() {
+    var category = Get.arguments['categoryName'];
+    print("@!!----category:: ${category}");
+    if (category == null) {
+      return;
+    }
+    var length = _categoryMap[category]?.length ?? 0;
+    _categoryMap[category]?.add('');
+    _subcategories.value = _categoryMap[category]?.toList() ?? [];
+
+        print(
+        "@!!---------subcategoriesValue:: ${subcategoriesValue?.length ?? 9}");
+  }
 
   void setEditCurrentIndex(int index) {
     _editCurrentIndex.value = index;
@@ -60,6 +82,6 @@ class CategoryController extends GetxController {
   }
 }
 
-enum CategoryArguments{
+enum CategoryArguments {
   categoryName,
 }
