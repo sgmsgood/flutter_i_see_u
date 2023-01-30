@@ -51,7 +51,7 @@ class CategoryPage extends GetView<CategoryController> {
             ),
             Obx(
               () => Text(
-                '${controller.categoryValue.keys.toList().length}',
+                '${controller.categoriesMap.keys.toList().length}',
                 style: TextStyle(color: Colors.grey),
               ),
             )
@@ -90,7 +90,11 @@ class CategoryPage extends GetView<CategoryController> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               IconButton(
-                  onPressed: () => Get.toNamed(Routes.editCategory),
+                  onPressed: () {
+                    Get.toNamed(Routes.editCategory,
+                        arguments: {"categoryName": ''});
+                    controller.onReady();
+                  },
                   style: IconButton.styleFrom(
                     padding: EdgeInsets.zero,
                     tapTargetSize: MaterialTapTargetSize.padded,
@@ -120,7 +124,7 @@ class CategoryPage extends GetView<CategoryController> {
     return Obx(
       () {
         var list = true
-            ? controller.categoryValue.keys.toList()
+            ? controller.categoriesMap.keys.toList()
             : ['1', '2', '3', '4', '5', '6', '7'];
 
         return Container(
@@ -142,8 +146,10 @@ class CategoryPage extends GetView<CategoryController> {
       children: list
           .map(
             (e) => InkWell(
-              onTap: () => Get.toNamed(Routes.editCategory,
-                  arguments: {"categoryName": e}),
+              onTap: () {
+                Get.toNamed(Routes.editCategory,
+                    arguments: {"categoryName": e});
+              },
               child: Container(
                 width: double.infinity,
                 height: 80.h,
