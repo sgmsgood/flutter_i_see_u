@@ -8,9 +8,14 @@ class TextFieldRoundBorder extends StatelessWidget {
   VoidCallbackWithString? onChangedEvent;
   VoidCallback? onTapOutside;
 
-
   TextFieldRoundBorder(
-      {this.editingController, this.hintText, this.focusBorderColor, this.enableBorderColor, this.onChangedEvent, this.onTapOutside, Key? key})
+      {this.editingController,
+      this.hintText,
+      this.focusBorderColor,
+      this.enableBorderColor,
+      this.onChangedEvent,
+      this.onTapOutside,
+      Key? key})
       : super(key: key);
 
   @override
@@ -19,12 +24,18 @@ class TextFieldRoundBorder extends StatelessWidget {
       controller: editingController,
       decoration: InputDecoration(
           enabledBorder:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           focusedBorder:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           hintText: '추가할 카테고리를 입력하세요.'),
       onChanged: onChangedEvent,
       onEditingComplete: onTapOutside,
+      onTapOutside: (e) {
+        if(onTapOutside == null) {
+          return;
+        }
+        onTapOutside!();
+      },
     );
   }
 }

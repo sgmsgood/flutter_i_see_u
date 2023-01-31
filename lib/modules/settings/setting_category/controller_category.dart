@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
@@ -27,8 +29,9 @@ class CategoryController extends GetxController {
 
   @override
   void onReady() {
-    categoryArgument.value =
-        Get.arguments[CategoryArguments.categoryName.toString()] ?? '';
+    // print("@!!---::::::::::::${Get.arguments}");
+    // categoryArgument.value =
+    //     Get.arguments["categoryName"] ?? '';
     super.onReady();
   }
 

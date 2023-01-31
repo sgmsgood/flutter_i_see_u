@@ -13,11 +13,12 @@ class EditCategoryPage extends GetView<CategoryController> {
 
   @override
   Widget build(BuildContext context) {
+    var categoryName = Get.arguments['categoryName'];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         elevation: 0.2,
-        title: Text('카테고리 추가'),
+        title: Text(categoryName == '' ? '카테고리 추가' : "$categoryName 수정"),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -72,7 +73,10 @@ class EditCategoryPage extends GetView<CategoryController> {
               child: const Text('다음'),
             ),
             TextButton(
-              onPressed: controller.saveCategoryName,
+              onPressed: () {
+                controller.saveCategoryName();
+                controller.setNextStep();
+              },
               child: const Text('저장'),
             ),
           ],
