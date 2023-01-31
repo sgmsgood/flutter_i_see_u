@@ -29,9 +29,6 @@ class CategoryController extends GetxController {
 
   @override
   void onReady() {
-    // print("@!!---::::::::::::${Get.arguments}");
-    // categoryArgument.value =
-    //     Get.arguments["categoryName"] ?? '';
     super.onReady();
   }
 

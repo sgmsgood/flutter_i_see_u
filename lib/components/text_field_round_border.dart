@@ -27,11 +27,11 @@ class TextFieldRoundBorder extends StatelessWidget {
               OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           focusedBorder:
               OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          hintText: '추가할 카테고리를 입력하세요.'),
+          hintText: hintText),
       onChanged: onChangedEvent,
       onEditingComplete: onTapOutside,
       onTapOutside: (e) {
-        if(onTapOutside == null) {
+        if (onTapOutside == null) {
           return;
         }
         onTapOutside!();

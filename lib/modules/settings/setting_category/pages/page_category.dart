@@ -150,6 +150,7 @@ class CategoryPage extends GetView<CategoryController> {
                 controller.onReady();
                 Get.toNamed(Routes.editCategory,
                     arguments: {"categoryName": e});
+                controller.editingController?.clear();
               },
               child: Container(
                 width: double.infinity,

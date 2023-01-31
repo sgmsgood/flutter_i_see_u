@@ -36,7 +36,7 @@ class EditCategoryPage extends GetView<CategoryController> {
                   content: Container(
                     width: 300.w,
                     alignment: Alignment.topLeft,
-                    child: _buildAddCategory(),
+                    child: _buildAddCategory(categoryName),
                   ),
                 ),
                 _buildStep(
@@ -56,12 +56,12 @@ class EditCategoryPage extends GetView<CategoryController> {
     );
   }
 
-  Widget _buildAddCategory() {
+  Widget _buildAddCategory(String categoryName) {
     return Column(
       children: [
         TextFieldRoundBorder(
           editingController: controller.editingController,
-          hintText: '추가할 카테고리를 입력하세요.',
+          hintText: categoryName == '' ? '추가할 카테고리를 입력하세요.' : categoryName,
           onTapOutside: controller.setCategoryName,
           // onChangedEvent: controller.setCategoryName,
         ),
@@ -77,7 +77,7 @@ class EditCategoryPage extends GetView<CategoryController> {
                 controller.saveCategoryName();
                 controller.setNextStep();
               },
-              child: const Text('저장'),
+              child: Text(categoryName == '' ? '저장' : '수정'),
             ),
           ],
         ),
