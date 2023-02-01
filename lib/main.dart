@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i_see_u/model/manager/hive_manager.dart';
 import 'package:flutter_i_see_u/routes/app_pages.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-void main() {
+void main() async{
+  HiveManager.init();
   runApp(const MyApp());
 }
 

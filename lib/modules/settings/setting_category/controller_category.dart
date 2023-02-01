@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_i_see_u/model/category.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -11,7 +12,7 @@ class CategoryController extends GetxController {
 
   TextEditingController? editingController;
 
-  final categoriesMap = <String, List<String>>{}.obs;
+  final categoriesList = <CategoryModel>[].obs;
 
   final _categoryName = ''.obs;
 
@@ -57,7 +58,16 @@ class CategoryController extends GetxController {
   }
 
   void saveCategoryName() {
-    categoriesMap.addAll({_categoryName.value: []});
+    var categoryName = _categoryName.value;
+    if(_getCategory(categoryName) != null) {
+      return;
+    }
+
+    categoriesList.add(CategoryModel(categoryName: _categoryName.value));
+  }
+
+  CategoryModel? _getCategory(String categoryName) {
+    return categoriesList.firstWhereOrNull((element) => element.categoryName == categoryName);
   }
 }
 

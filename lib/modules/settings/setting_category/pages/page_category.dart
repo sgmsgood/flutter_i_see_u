@@ -51,7 +51,7 @@ class CategoryPage extends GetView<CategoryController> {
             ),
             Obx(
               () => Text(
-                '${controller.categoriesMap.keys.toList().length}',
+                '${controller.categoriesList.length}',
                 style: TextStyle(color: Colors.grey),
               ),
             )
@@ -123,9 +123,7 @@ class CategoryPage extends GetView<CategoryController> {
   Widget _buildListView() {
     return Obx(
       () {
-        var list = true
-            ? controller.categoriesMap.keys.toList()
-            : ['1', '2', '3', '4', '5', '6', '7'];
+        var list = controller.categoriesList;
 
         return Container(
             decoration: const BoxDecoration(
