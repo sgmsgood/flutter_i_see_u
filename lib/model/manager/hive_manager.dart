@@ -12,7 +12,7 @@ class HiveManager {
   }
 
   static Future<void> _registerAdapters() async {
-    // Hive.registerAdapter(PaypleRegResultModelAdapter());
+    Hive.registerAdapter(CategoryModelAdapter());
   }
 
   static Future<void> _openAllBox<T extends HiveObject>() async {

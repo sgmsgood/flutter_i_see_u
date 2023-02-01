@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i_see_u/model/category.dart';
 import 'package:flutter_i_see_u/modules/settings/setting_category/controller_category.dart';
 import 'package:flutter_i_see_u/routes/app_pages.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -123,7 +124,7 @@ class CategoryPage extends GetView<CategoryController> {
   Widget _buildListView() {
     return Obx(
       () {
-        var list = controller.categoriesList;
+        var list = controller.categoriesList.toList();
 
         return Container(
             decoration: const BoxDecoration(
@@ -139,7 +140,7 @@ class CategoryPage extends GetView<CategoryController> {
     );
   }
 
-  Widget _buildCategoryExist(List<dynamic> list) {
+  Widget _buildCategoryExist(List<CategoryModel> list) {
     return Column(
       children: list
           .map(
@@ -147,14 +148,14 @@ class CategoryPage extends GetView<CategoryController> {
               onTap: () {
                 controller.onReady();
                 Get.toNamed(Routes.editCategory,
-                    arguments: {"categoryName": e});
+                    arguments: {"categoryName": e.categoryName});
                 controller.editingController?.clear();
               },
               child: Container(
                 width: double.infinity,
                 height: 80.h,
                 child: Card(
-                  child: Text(e),
+                  child: Text(e.categoryName),
                 ),
               ),
             ),

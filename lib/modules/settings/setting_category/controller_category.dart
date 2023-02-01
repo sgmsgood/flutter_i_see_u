@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_i_see_u/model/category.dart';
+import 'package:flutter_i_see_u/model/manager/hive_manager.dart';
 import 'package:get/get.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -22,9 +23,13 @@ class CategoryController extends GetxController {
 
   final categoryArgument = ''.obs;
 
+  final _hiveManager = HiveManager();
+
   @override
   void onInit() {
     editingController = TextEditingController();
+    categoriesList.value = _hiveManager.getBoxData(CategoryModel.boxName);
+    print("@!!--categoriesList: ${categoriesList.length}");
     super.onInit();
   }
 
@@ -57,13 +62,16 @@ class CategoryController extends GetxController {
     _categoryName.value = editingController?.text ?? '';
   }
 
-  void saveCategoryName() {
+  void saveCategoryName() async {
     var categoryName = _categoryName.value;
     if(_getCategory(categoryName) != null) {
       return;
     }
 
     categoriesList.add(CategoryModel(categoryName: _categoryName.value));
+
+    var keyList = categoriesList.map((element) => element.categoryName).toList();
+    await _hiveManager.saveList<CategoryModel>(CategoryModel.boxName, keyList, categoriesList);
   }
 
   CategoryModel? _getCategory(String categoryName) {
