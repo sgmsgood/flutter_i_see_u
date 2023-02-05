@@ -147,6 +147,7 @@ class CategoryPage extends GetView<CategoryController> {
             (e) => InkWell(
               onTap: () {
                 controller.onReady();
+                controller.getSubCategoryByCategory(e.categoryName);
                 Get.toNamed(Routes.editCategory,
                     arguments: {"categoryName": e.categoryName});
                 controller.editingController?.clear();

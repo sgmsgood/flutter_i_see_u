@@ -1,6 +1,6 @@
 import 'package:enhance_stepper/enhance_stepper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_i_see_u/components/button_icon_square_opacity.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_i_see_u/components/text_field_round_border.dart';
 import 'package:flutter_i_see_u/modules/settings/setting_category/controller_category.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -86,20 +86,38 @@ class EditCategoryPage extends GetView<CategoryController> {
   }
 
   Widget _buildAddSubCategory() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AddListInputForm(),
-          ],
-        ),
-        TextButton(
-          onPressed: () {},
-          child: const Text('저장'),
-        ),
-      ],
+    print("@!!--subCategoryList: ${controller.subCategoriesListValue.isEmpty}/ ${controller.subCategoriesListValue.first}");
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: controller.subCategoriesListValue.isNotEmpty
+                ? controller.subCategoriesListValue
+                    .mapIndexed(
+                      (i, e) => AddListInputForm(
+                        hintText: e,
+                        onChangedEvent: (value) =>
+                            controller.setSubCategoryList(i, value),
+                        onAddEvent: controller.addSubcategory,
+                      ),
+                    )
+                    .toList()
+                : [
+                    AddListInputForm(
+                      onAddEvent: controller.addSubcategory,
+                    )
+                  ],
+          ),
+          TextButton(
+            onPressed: () async {
+              controller.saveSubCategory();
+            },
+            child: const Text('저장'),
+          ),
+        ],
+      ),
     );
   }
 

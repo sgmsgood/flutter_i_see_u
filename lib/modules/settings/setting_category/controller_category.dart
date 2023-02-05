@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_i_see_u/model/category.dart';
 import 'package:flutter_i_see_u/model/manager/hive_manager.dart';
 import 'package:get/get.dart';
+import 'package:collection/collection.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CategoryController extends GetxController {
@@ -19,7 +20,9 @@ class CategoryController extends GetxController {
 
   String get categoryNameValue => _categoryName.value;
 
-  final subCategoriesList = <String>[].obs;
+  final _subCategoriesList = <String>[].obs;
+
+  List<String> get subCategoriesListValue => _subCategoriesList;
 
   final categoryArgument = ''.obs;
 
@@ -29,7 +32,8 @@ class CategoryController extends GetxController {
   void onInit() {
     editingController = TextEditingController();
     categoriesList.value = _hiveManager.getBoxData(CategoryModel.boxName);
-    print("@!!--categoriesList: ${categoriesList.length}");
+
+    print("@!!--init:: ${categoriesList.length}");
     super.onInit();
   }
 
@@ -64,18 +68,79 @@ class CategoryController extends GetxController {
 
   void saveCategoryName() async {
     var categoryName = _categoryName.value;
-    if(_getCategory(categoryName) != null) {
+    if (_getCategoryModel(categoryName) != null) {
       return;
     }
 
     categoriesList.add(CategoryModel(categoryName: _categoryName.value));
 
-    var keyList = categoriesList.map((element) => element.categoryName).toList();
-    await _hiveManager.saveList<CategoryModel>(CategoryModel.boxName, keyList, categoriesList);
+    var keyList =
+        categoriesList.map((element) => element.categoryName).toList();
+    await _hiveManager.saveList<CategoryModel>(
+        CategoryModel.boxName, keyList, categoriesList);
   }
 
-  CategoryModel? _getCategory(String categoryName) {
-    return categoriesList.firstWhereOrNull((element) => element.categoryName == categoryName);
+  void setSubCategoryList(int index, String subCategory) {
+    var unregisterSubCategories =
+        _subCategoriesList.where((element) => element != subCategory).toList();
+
+    if (unregisterSubCategories.isEmpty) {
+      print("@!!------------1");
+      return;
+    }
+
+    print("@!!_---------------------2");
+
+      _subCategoriesList[index] = subCategory;
+    for (var element in unregisterSubCategories) {
+      print("@!!_---------------------3: ${subCategory}");
+    }
+      print("@!!_---------------------4: ${_subCategoriesList[index]}");
+  }
+
+  void saveSubCategory() async {
+    var categoryName = Get.arguments['categoryName'];
+    var categoryModel = categoriesList.firstWhereOrNull(
+        (element) => element.categoryName == categoryName);
+
+    if (categoryModel == null) {
+      log("@!!----categooryModel is Null");
+      log("@!!----categoryListLength: ${categoriesList.length} / ${_categoryName.value}");
+      return;
+    }
+
+    log("@!!---categoryModel:: ${categoryModel.categoryName} / ${categoryModel.subCategories?.length}");
+
+    var isSameSubCategory = const DeepCollectionEquality().equals(categoryModel.subCategories, _subCategoriesList);
+
+    if(isSameSubCategory) {
+      print("@!!----------------------?");
+      return;
+    }
+
+    categoryModel.subCategories = _subCategoriesList;
+
+    print("@!!--categoryModel.subCategories: ${categoryModel.subCategories?.length} / categoryName: ${categoryName}");
+
+    await _hiveManager.save<CategoryModel>(
+        CategoryModel.boxName, categoryName, categoryModel);
+
+    print("@!!--categoryModel.subCategories222: ${categoryModel.subCategories?.length}");
+  }
+
+  CategoryModel? _getCategoryModel(String categoryName) {
+    return categoriesList.value
+        .firstWhereOrNull((element) => element.categoryName == categoryName);
+  }
+
+  List<String> getSubCategoryByCategory(String categoryName) {
+    log("@!!---111: ${_getCategoryModel(categoryName)?.subCategories}");
+    return _subCategoriesList.value =
+        _getCategoryModel(categoryName)?.subCategories ?? [''];
+  }
+
+  void addSubcategory() {
+    _subCategoriesList.add('');
   }
 }
 
