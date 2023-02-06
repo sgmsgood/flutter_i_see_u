@@ -13,12 +13,13 @@ class EditCategoryPage extends GetView<CategoryController> {
 
   @override
   Widget build(BuildContext context) {
-    var categoryName = Get.arguments['categoryName'];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         elevation: 0.2,
-        title: Text(categoryName == '' ? '카테고리 추가' : "$categoryName 수정"),
+        title: Text(controller.categoryNameValue == ''
+            ? '카테고리 추가'
+            : "${controller.categoryNameValue} 수정"),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -36,7 +37,7 @@ class EditCategoryPage extends GetView<CategoryController> {
                   content: Container(
                     width: 300.w,
                     alignment: Alignment.topLeft,
-                    child: _buildAddCategory(categoryName),
+                    child: _buildAddCategory(controller.categoryNameValue),
                   ),
                 ),
                 _buildStep(
@@ -63,7 +64,6 @@ class EditCategoryPage extends GetView<CategoryController> {
           editingController: controller.editingController,
           hintText: categoryName == '' ? '추가할 카테고리를 입력하세요.' : categoryName,
           onTapOutside: controller.setCategoryName,
-          // onChangedEvent: controller.setCategoryName,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -86,38 +86,37 @@ class EditCategoryPage extends GetView<CategoryController> {
   }
 
   Widget _buildAddSubCategory() {
-    print("@!!--subCategoryList: ${controller.subCategoriesListValue.isEmpty}/ ${controller.subCategoriesListValue.first}");
-    return Obx(
-      () => Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: controller.subCategoriesListValue.isNotEmpty
-                ? controller.subCategoriesListValue
-                    .mapIndexed(
-                      (i, e) => AddListInputForm(
-                        hintText: e,
-                        onChangedEvent: (value) =>
-                            controller.setSubCategoryList(i, value),
-                        onAddEvent: controller.addSubcategory,
-                      ),
-                    )
-                    .toList()
-                : [
-                    AddListInputForm(
-                      onAddEvent: controller.addSubcategory,
-                    )
-                  ],
-          ),
-          TextButton(
-            onPressed: () async {
-              controller.saveSubCategory();
-            },
-            child: const Text('저장'),
-          ),
-        ],
-      ),
+    print(
+        "@!!--- controller.subCategoriesListValue: ${controller.subCategoriesListValue.length}");
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: controller.subCategoriesListValue.isNotEmpty
+              ? controller.subCategoriesListValue
+              .mapIndexed(
+                (i, e) => AddListInputForm(
+              hintText: e,
+              onChangedEvent: (value) =>
+                  controller.setSubCategoryList(i, value),
+              onAddEvent: controller.addSubcategory,
+            ),
+          )
+              .toList()
+              : [
+            AddListInputForm(
+              onAddEvent: controller.addSubcategory,
+            )
+          ],
+        ),
+        TextButton(
+          onPressed: () async {
+            controller.saveSubCategory();
+          },
+          child: const Text('저장'),
+        ),
+      ],
     );
   }
 

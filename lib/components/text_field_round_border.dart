@@ -30,12 +30,12 @@ class TextFieldRoundBorder extends StatelessWidget {
           hintText: hintText),
       onChanged: onChangedEvent,
       onEditingComplete: onTapOutside,
-      onTapOutside: (e) {
-        if (onTapOutside == null) {
-          return;
-        }
-        onTapOutside!();
-      },
+      // onTapOutside: (e) {
+      //   if (onTapOutside == null) {
+      //     return;
+      //   }
+      //   onTapOutside!();
+      // },
     );
   }
 }

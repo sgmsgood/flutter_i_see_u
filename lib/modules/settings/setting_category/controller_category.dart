@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_i_see_u/model/category.dart';
 import 'package:flutter_i_see_u/model/manager/hive_manager.dart';
 import 'package:get/get.dart';
 import 'package:collection/collection.dart';
+import 'package:hive/hive.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CategoryController extends GetxController {
@@ -33,13 +35,7 @@ class CategoryController extends GetxController {
     editingController = TextEditingController();
     categoriesList.value = _hiveManager.getBoxData(CategoryModel.boxName);
 
-    print("@!!--init:: ${categoriesList.length}");
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
   }
 
   @override
@@ -58,7 +54,12 @@ class CategoryController extends GetxController {
     _editCurrentIndex.value++;
   }
 
-  void setCategoryName() {
+  void setCategoryName({String? categoryName}) {
+    if (categoryName != null) {
+      _categoryName.value = categoryName;
+      return;
+    }
+
     if (editingController?.text == null) {
       return;
     }
@@ -85,61 +86,92 @@ class CategoryController extends GetxController {
         _subCategoriesList.where((element) => element != subCategory).toList();
 
     if (unregisterSubCategories.isEmpty) {
-      print("@!!------------1");
       return;
     }
 
-    print("@!!_---------------------2");
+    _subCategoriesList[index] = subCategory;
+  }
 
-      _subCategoriesList[index] = subCategory;
-    for (var element in unregisterSubCategories) {
-      print("@!!_---------------------3: ${subCategory}");
+  void removeEmptySubCategory() {
+    var emptySubcategory = _subCategoriesList.where((v) => v.isEmpty).toList();
+
+    if (emptySubcategory.isEmpty || emptySubcategory.length == 1) {
+      return;
     }
-      print("@!!_---------------------4: ${_subCategoriesList[index]}");
+
+    emptySubcategory.forEachIndexed((index, element) {
+      _subCategoriesList.remove('');
+    });
   }
 
   void saveSubCategory() async {
-    var categoryName = Get.arguments['categoryName'];
-    var categoryModel = categoriesList.firstWhereOrNull(
-        (element) => element.categoryName == categoryName);
-
+    print("@!!--_categoryName.value: ${_categoryName.value}");
+    var categoryModel = _getCategoryModel(_categoryName.value);
+    print("@!!----------1");
     if (categoryModel == null) {
-      log("@!!----categooryModel is Null");
-      log("@!!----categoryListLength: ${categoriesList.length} / ${_categoryName.value}");
+      print("@!!----------2");
       return;
     }
 
-    log("@!!---categoryModel:: ${categoryModel.categoryName} / ${categoryModel.subCategories?.length}");
+    categoryModel.subCategories?.forEach((element) {
+      print("@!!------------COMPARE:: 1: $element");
+    });
 
-    var isSameSubCategory = const DeepCollectionEquality().equals(categoryModel.subCategories, _subCategoriesList);
+    _subCategoriesList.toList().forEach((e) {
+      print("@!!------------COMPARE:: 2: $e");
+    });
 
-    if(isSameSubCategory) {
-      print("@!!----------------------?");
-      return;
-    }
+    // var isSameSubCategory = const DeepCollectionEquality()
+    //     .equals(categoryModel.subCategories, _subCategoriesList);
+    // print("@!!----------3");
+    //
+    // if (isSameSubCategory) {
+    //   print("@!!----------4");
+    //   return;
+    // }
 
+    removeEmptySubCategory();
     categoryModel.subCategories = _subCategoriesList;
 
-    print("@!!--categoryModel.subCategories: ${categoryModel.subCategories?.length} / categoryName: ${categoryName}");
 
     await _hiveManager.save<CategoryModel>(
-        CategoryModel.boxName, categoryName, categoryModel);
+        CategoryModel.boxName, _categoryName.value, categoryModel);
 
-    print("@!!--categoryModel.subCategories222: ${categoryModel.subCategories?.length}");
+    getSubCategoryByCategory();
+
+    _showSnackBar(title: '하위 정보 저장 완료!');
+  }
+
+  void _showSnackBar({required String title, String? explain}) {
+    Get.snackbar(
+      title,
+      explain ?? '',
+      backgroundColor: const Color(0xFFE1E9FE),
+    );
   }
 
   CategoryModel? _getCategoryModel(String categoryName) {
-    return categoriesList.value
+    return categoriesList
         .firstWhereOrNull((element) => element.categoryName == categoryName);
   }
 
-  List<String> getSubCategoryByCategory(String categoryName) {
-    log("@!!---111: ${_getCategoryModel(categoryName)?.subCategories}");
-    return _subCategoriesList.value =
-        _getCategoryModel(categoryName)?.subCategories ?? [''];
+  void getSubCategoryByCategory() {
+    if (_categoryName.value.isEmpty) {
+      _subCategoriesList.value = [''];
+    }
+
+    _subCategoriesList.value =
+        _getCategoryModel(_categoryName.value)?.subCategories ?? [''];
+
+    print("@!!--------------------------------_subCategoriesList:: ${_subCategoriesList.length}");
   }
 
   void addSubcategory() {
+    if (_subCategoriesList.contains('')) {
+      _showSnackBar(title: '하위 카테고리 오류', explain: '빈 하위 카테고리를 입력해주세yo! 😟');
+      return;
+    }
+
     _subCategoriesList.add('');
   }
 }

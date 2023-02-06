@@ -92,9 +92,8 @@ class CategoryPage extends GetView<CategoryController> {
             children: [
               IconButton(
                   onPressed: () {
-                    Get.toNamed(Routes.editCategory,
-                        arguments: {"categoryName": ''});
-                    controller.onReady();
+                    controller.setCategoryName();
+                    Get.toNamed(Routes.editCategory);
                   },
                   style: IconButton.styleFrom(
                     padding: EdgeInsets.zero,
@@ -146,13 +145,12 @@ class CategoryPage extends GetView<CategoryController> {
           .map(
             (e) => InkWell(
               onTap: () {
-                controller.onReady();
-                controller.getSubCategoryByCategory(e.categoryName);
-                Get.toNamed(Routes.editCategory,
-                    arguments: {"categoryName": e.categoryName});
+                controller.setCategoryName(categoryName: e.categoryName);
+                controller.getSubCategoryByCategory();
+                Get.toNamed(Routes.editCategory);
                 controller.editingController?.clear();
               },
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 height: 80.h,
                 child: Card(

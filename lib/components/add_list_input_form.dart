@@ -33,19 +33,20 @@ class AddListInputForm extends StatelessWidget {
             Expanded(
               flex: 9,
               child: TextFormField(
+                initialValue: hintText,
                 controller: editingController,
                 decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8)),
                     focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    hintText: hintText),
+                        borderRadius: BorderRadius.circular(8))),
                 onChanged: onChangedEvent,
-                onEditingComplete: onTapOutside,
+                // onEditingComplete: onTapOutside,
                 onTapOutside: (e) {
                   if (onTapOutside == null) {
                     return;
                   }
+
                   onTapOutside!();
                 },
               ),
