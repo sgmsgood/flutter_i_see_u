@@ -26,6 +26,10 @@ class AddListInputForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        "@!!-----------------------------------------------------hintText: $hintText");
+    editingController?.selection = TextSelection.fromPosition(
+        TextPosition(offset: editingController?.selection.base.offset ?? 0));
     return Column(
       children: [
         Row(
@@ -33,22 +37,16 @@ class AddListInputForm extends StatelessWidget {
             Expanded(
               flex: 9,
               child: TextFormField(
-                initialValue: hintText,
+                autofocus: false,
                 controller: editingController,
                 decoration: InputDecoration(
+                    hintText: (editingController?.text.isEmpty ?? false)
+                        ? '하위 카테고리를 입력해주세요.'
+                        : '',
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8)),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8))),
-                onChanged: onChangedEvent,
-                // onEditingComplete: onTapOutside,
-                onTapOutside: (e) {
-                  if (onTapOutside == null) {
-                    return;
-                  }
-
-                  onTapOutside!();
-                },
               ),
             ),
             SizedBox(

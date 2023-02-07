@@ -61,7 +61,7 @@ class EditCategoryPage extends GetView<CategoryController> {
     return Column(
       children: [
         TextFieldRoundBorder(
-          editingController: controller.editingController,
+          editingController: controller.categoryEditingController,
           hintText: categoryName == '' ? '추가할 카테고리를 입력하세요.' : categoryName,
           onTapOutside: controller.setCategoryName,
         ),
@@ -87,29 +87,24 @@ class EditCategoryPage extends GetView<CategoryController> {
 
   Widget _buildAddSubCategory() {
     print(
-        "@!!--- controller.subCategoriesListValue: ${controller.subCategoriesListValue.length}");
+        "@!!---->>>controller.subCategoriesListValue: ${controller.subCategoriesListValue.length}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Column(
-          mainAxisSize: MainAxisSize.min,
-          children: controller.subCategoriesListValue.isNotEmpty
-              ? controller.subCategoriesListValue
-              .mapIndexed(
-                (i, e) => AddListInputForm(
-              hintText: e,
-              onChangedEvent: (value) =>
-                  controller.setSubCategoryList(i, value),
-              onAddEvent: controller.addSubcategory,
-            ),
-          )
-              .toList()
-              : [
-            AddListInputForm(
-              onAddEvent: controller.addSubcategory,
-            )
-          ],
-        ),
+            mainAxisSize: MainAxisSize.min,
+            children: controller.subCategoriesListValue
+                .mapIndexed(
+                  (i, e) => Form(
+                    child: AddListInputForm(
+                      editingController: controller.subCategoryEditingControllerList[i],
+                      onChangedEvent: (value) =>
+                          controller.setSubCategoryList(i, value),
+                      onAddEvent: controller.addSubcategory,
+                    ),
+                  ),
+                )
+                .toList()),
         TextButton(
           onPressed: () async {
             controller.saveSubCategory();

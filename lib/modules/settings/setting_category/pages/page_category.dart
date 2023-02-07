@@ -147,8 +147,8 @@ class CategoryPage extends GetView<CategoryController> {
               onTap: () {
                 controller.setCategoryName(categoryName: e.categoryName);
                 controller.getSubCategoryByCategory();
+                controller.initEditingTextControllerList();
                 Get.toNamed(Routes.editCategory);
-                controller.editingController?.clear();
               },
               child: SizedBox(
                 width: double.infinity,
