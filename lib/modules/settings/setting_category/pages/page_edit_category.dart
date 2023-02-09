@@ -87,29 +87,40 @@ class EditCategoryPage extends GetView<CategoryController> {
 
   Widget _buildAddSubCategory() {
     print(
-        "@!!---->>>controller.subCategoriesListValue: ${controller.subCategoriesListValue.length}");
+        "@!!---->>>controller.subCategoriesListValue: ${controller.subCategoryEditingControllerList.length}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Column(
             mainAxisSize: MainAxisSize.min,
-            children: controller.subCategoriesListValue
+            children: controller.subCategoryEditingControllerList
                 .mapIndexed(
                   (i, e) => Form(
-                    child: AddListInputForm(
-                      editingController: controller.subCategoryEditingControllerList[i],
-                      onChangedEvent: (value) =>
-                          controller.setSubCategoryList(i, value),
-                      onAddEvent: controller.addSubcategory,
+                    child: Obx(
+                      () => AddListInputForm(
+                        editingController:
+                            controller.subCategoryEditingControllerList[i],
+                        onRemoveEvent: () {
+                          controller.removeSubCategory(i);
+                        },
+                      ),
                     ),
                   ),
                 )
                 .toList()),
-        TextButton(
-          onPressed: () async {
-            controller.saveSubCategory();
-          },
-          child: const Text('저장'),
+        Row(
+          children: [
+            TextButton(
+              onPressed: controller.addSubcategory,
+              child: const Text('추가'),
+            ),
+            TextButton(
+              onPressed: () async {
+                controller.saveSubCategory();
+              },
+              child: const Text('저장'),
+            ),
+          ],
         ),
       ],
     );

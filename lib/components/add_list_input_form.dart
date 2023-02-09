@@ -11,7 +11,7 @@ class AddListInputForm extends StatelessWidget {
   Color? enableBorderColor;
   ValueChanged<String>? onChangedEvent;
   VoidCallback? onTapOutside;
-  VoidCallback? onAddEvent;
+  VoidCallback? onRemoveEvent;
 
   AddListInputForm(
       {this.editingController,
@@ -20,16 +20,12 @@ class AddListInputForm extends StatelessWidget {
       this.enableBorderColor,
       this.onChangedEvent,
       this.onTapOutside,
-      this.onAddEvent,
+      this.onRemoveEvent,
       Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(
-        "@!!-----------------------------------------------------hintText: $hintText");
-    editingController?.selection = TextSelection.fromPosition(
-        TextPosition(offset: editingController?.selection.base.offset ?? 0));
     return Column(
       children: [
         Row(
@@ -55,10 +51,10 @@ class AddListInputForm extends StatelessWidget {
             Expanded(
               flex: 1,
               child: IconSquareOpacityButton(
-                icon: Icons.add,
+                icon: Icons.remove,
                 backgroundColor: Colors.black.withOpacity(0.4),
                 buttonSize: Size(32.w, 32.w),
-                onEvent: onAddEvent,
+                onEvent: onRemoveEvent,
               ),
             ),
           ],

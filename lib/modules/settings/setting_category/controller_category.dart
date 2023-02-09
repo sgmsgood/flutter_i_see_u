@@ -57,12 +57,24 @@ class CategoryController extends GetxController {
     if (subCategoryEditingControllerList.isEmpty) {
       for (var element in subCategoriesListValue) {
         subCategoryEditingControllerList
-            .add(TextEditingController());
+            .add(TextEditingController(text: element));
       }
+
+      return;
     }
 
-    _subCategoriesList.forEachIndexed((index, element) =>
-        subCategoryEditingControllerList[index].text = element);
+    if(_subCategoriesList.length != subCategoryEditingControllerList.length) {
+      subCategoriesListValue.forEachIndexed((index, element) {
+        if (subCategoryEditingControllerList[index].text != element) {
+          subCategoryEditingControllerList.insert(
+              index, TextEditingController(text: element));
+        }
+
+        // if(subCategoryEditingControllerList[index].text.isEmpty) {
+        //   subCategoryEditingControllerList.removeAt(index);
+        // }
+      });
+    }
   }
 
   void setCurrentStepIndex(int index) => _editCurrentIndex.value = index;
@@ -102,29 +114,35 @@ class CategoryController extends GetxController {
         CategoryModel.boxName, keyList, categoriesList);
   }
 
-  void setSubCategoryList(int index, String subCategory) {
-    var unregisterSubCategories =
-        _subCategoriesList.where((element) => element != subCategoryEditingControllerList[index].text).toList();
+  void setSubCategoryList() {
+    var unregisterSubCategories = subCategoryEditingControllerList
+        .where((e) => _subCategoriesList.contains(e.text))
+        .toList();
 
     if (unregisterSubCategories.isEmpty) {
       return;
     }
 
-    _subCategoriesList[index] = subCategoryEditingControllerList[index].text;
+    _subCategoriesList.value =
+        subCategoryEditingControllerList.map((e) => e.text).toList();
   }
 
   List<String> hasEmptySubCategory() {
-    return subCategoryEditingControllerList.map((v) => v.text.isEmpty.toString()).toList();
+    return subCategoryEditingControllerList
+        .map((v) => v.text.isEmpty.toString())
+        .toList();
   }
 
   void _removeEmptySubCategory() {
     var emptySubcategory = hasEmptySubCategory();
 
-    if (emptySubcategory.isEmpty || _subCategoriesList.length == 1) {
+    if (emptySubcategory.isEmpty && _subCategoriesList.length == 1) {
       return;
     }
 
     _subCategoriesList.removeWhere((element) => element.isEmpty);
+    subCategoryEditingControllerList
+        .removeWhere((element) => element.text.isEmpty);
   }
 
   Future<void> saveSubCategory() async {
@@ -133,8 +151,8 @@ class CategoryController extends GetxController {
       return;
     }
 
+    setSubCategoryList();
     _removeEmptySubCategory();
-    print("@!!----------_subCategoriesList: $_subCategoriesList");
     categoryModel.subCategories = [..._subCategoriesList];
 
     await _hiveManager.save<CategoryModel>(
@@ -163,13 +181,15 @@ class CategoryController extends GetxController {
       _subCategoriesList.value = [''];
     }
 
-    categoriesList.value = _hiveManager.getBoxData(CategoryModel.boxName);
-
     var categoryModel = _getCategoryModel(_categoryName.value);
 
     _subCategoriesList.value = (categoryModel?.subCategories?.isEmpty ?? true)
         ? ['']
         : categoryModel?.subCategories ?? [''];
+
+    initEditingTextControllerList();
+
+    print("@!!----here:::::::::::: ${_subCategoriesList}");
   }
 
   void addSubcategory() {
@@ -180,6 +200,10 @@ class CategoryController extends GetxController {
 
     subCategoryEditingControllerList.add(TextEditingController());
     _subCategoriesList.add('');
+  }
+
+  void removeSubCategory(int index) {
+    subCategoryEditingControllerList.removeAt(index);
   }
 }
 
