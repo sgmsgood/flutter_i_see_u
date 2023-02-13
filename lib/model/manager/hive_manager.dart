@@ -73,4 +73,5 @@ class HiveManager {
 
 class HiveModelType {
   static const int category = 1;
+  static const int subcategory = 2;
 }

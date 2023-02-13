@@ -61,22 +61,18 @@ class EditCategoryPage extends GetView<CategoryController> {
     return Column(
       children: [
         TextFieldRoundBorder(
-          editingController: controller.categoryEditingController,
-          hintText: categoryName == '' ? '추가할 카테고리를 입력하세요.' : categoryName,
-          onTapOutside: controller.setCategoryName,
-        ),
+            editingController: controller.categoryEditingController,
+            hintText: categoryName == '' ? '추가할 카테고리를 입력하세요.' : categoryName,
+            onTapOutside: () {}),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-              onPressed: controller.setNextStep,
+              onPressed: () {},
               child: const Text('다음'),
             ),
             TextButton(
-              onPressed: () {
-                controller.saveCategoryName();
-                controller.setNextStep();
-              },
+              onPressed: () {},
               child: Text(categoryName == '' ? '저장' : '수정'),
             ),
           ],
@@ -87,37 +83,33 @@ class EditCategoryPage extends GetView<CategoryController> {
 
   Widget _buildAddSubCategory() {
     print(
-        "@!!---->>>controller.subCategoriesListValue: ${controller.subCategoryEditingControllerList.length}");
+        "@!!---->>>controller.subCategoriesListValue: ${controller.subCategoriesListValue.length} vs ${controller.subCategoryEditingControllerList.length}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Column(
-            mainAxisSize: MainAxisSize.min,
-            children: controller.subCategoryEditingControllerList
-                .mapIndexed(
-                  (i, e) => Form(
-                    child: Obx(
-                      () => AddListInputForm(
-                        editingController:
-                            controller.subCategoryEditingControllerList[i],
-                        onRemoveEvent: () {
-                          controller.removeSubCategory(i);
-                        },
-                      ),
-                    ),
-                  ),
-                )
-                .toList()),
+        ListView.builder(
+          shrinkWrap: true,
+          itemBuilder: (context, index) => Form(
+            child: AddListInputForm(
+              // editingController:
+              //     controller.subCategoryEditingControllerList[i],
+              hintText: 'gg',
+              onRemoveEvent: () {},
+              onChangedEvent: (v) {},
+            ),
+          ),
+          itemCount: controller.subCategoriesListValue.length + 1,
+        ),
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             TextButton(
-              onPressed: controller.addSubcategory,
+              onPressed: () {},
               child: const Text('추가'),
             ),
             TextButton(
-              onPressed: () async {
-                controller.saveSubCategory();
-              },
+              onPressed: () async {},
               child: const Text('저장'),
             ),
           ],

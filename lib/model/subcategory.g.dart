@@ -1,35 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'category.dart';
+part of 'subcategory.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CategoryModelAdapter extends TypeAdapter<CategoryModel> {
+class SubCategoryModelAdapter extends TypeAdapter<SubCategoryModel> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
-  CategoryModel read(BinaryReader reader) {
+  SubCategoryModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CategoryModel(
-      categoryName: fields[0] as String,
-      subCategories: (fields[1] as List?)?.cast<SubCategoryModel>(),
+    return SubCategoryModel(
+      index: fields[0] as int,
+      subcategoryName: fields[1] as String,
+      accumulatedHourForAWeek: fields[2] as int?,
+      latestTimestamp: fields[3] as int,
     );
   }
 
   @override
-  void write(BinaryWriter writer, CategoryModel obj) {
+  void write(BinaryWriter writer, SubCategoryModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.categoryName)
+      ..write(obj.index)
       ..writeByte(1)
-      ..write(obj.subCategories);
+      ..write(obj.subcategoryName)
+      ..writeByte(2)
+      ..write(obj.accumulatedHourForAWeek)
+      ..writeByte(3)
+      ..write(obj.latestTimestamp);
   }
 
   @override
@@ -38,7 +44,7 @@ class CategoryModelAdapter extends TypeAdapter<CategoryModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CategoryModelAdapter &&
+      other is SubCategoryModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

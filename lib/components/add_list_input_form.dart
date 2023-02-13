@@ -34,15 +34,17 @@ class AddListInputForm extends StatelessWidget {
               flex: 9,
               child: TextFormField(
                 autofocus: false,
+                textInputAction: TextInputAction.done,
                 controller: editingController,
                 decoration: InputDecoration(
-                    hintText: (editingController?.text.isEmpty ?? false)
+                    hintText: (editingController?.text.isEmpty ?? true)
                         ? '하위 카테고리를 입력해주세요.'
                         : '',
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8)),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8))),
+                validator: (value){},
               ),
             ),
             SizedBox(

@@ -1,3 +1,4 @@
+import 'package:flutter_i_see_u/model/subcategory.dart';
 import 'package:hive/hive.dart';
 import 'manager/hive_manager.dart';
 
@@ -11,7 +12,7 @@ class CategoryModel extends HiveObject {
   String categoryName;
 
   @HiveField(1)
-  List<String>? subCategories;
+  List<SubCategoryModel>? subCategories = [];
 
   CategoryModel({required this.categoryName, this.subCategories});
 }
