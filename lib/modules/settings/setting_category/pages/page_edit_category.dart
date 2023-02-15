@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_i_see_u/components/text_field_round_border.dart';
 import 'package:flutter_i_see_u/modules/settings/setting_category/controller_category.dart';
+import 'package:flutter_i_see_u/modules/settings/setting_category/pages/page_category.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -61,18 +62,17 @@ class EditCategoryPage extends GetView<CategoryController> {
     return Column(
       children: [
         TextFieldRoundBorder(
-            editingController: controller.categoryEditingController,
-            hintText: categoryName == '' ? '추가할 카테고리를 입력하세요.' : categoryName,
-            onTapOutside: () {}),
+          editingController: controller.categoryEditingController,
+          hintText: categoryName == '' ? '추가할 카테고리를 입력하세요.' : categoryName,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-              onPressed: () {},
-              child: const Text('다음'),
-            ),
-            TextButton(
-              onPressed: () {},
+              onPressed: () {
+                controller.saveCategoryName();
+                controller.getCategoryListFromHive();
+              },
               child: Text(categoryName == '' ? '저장' : '수정'),
             ),
           ],

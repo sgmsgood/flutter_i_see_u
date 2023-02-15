@@ -8,20 +8,20 @@ class SubCategoryModel extends HiveObject {
   static const String boxName = 'subcategory';
 
   @HiveField(0)
-  int index;
+  int? index;
 
   @HiveField(1)
-  String subcategoryName;
+  String? subcategoryName;
 
   @HiveField(2)
   int? accumulatedHourForAWeek = 0;
 
   @HiveField(3)
-  int latestTimestamp;
+  int? latestTimestamp;
 
   SubCategoryModel(
-      {required this.index,
-      required this.subcategoryName,
+      {this.index,
+      this.subcategoryName,
       this.accumulatedHourForAWeek,
-      required this.latestTimestamp});
+      this.latestTimestamp});
 }

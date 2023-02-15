@@ -17,10 +17,10 @@ class SubCategoryModelAdapter extends TypeAdapter<SubCategoryModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SubCategoryModel(
-      index: fields[0] as int,
-      subcategoryName: fields[1] as String,
+      index: fields[0] as int?,
+      subcategoryName: fields[1] as String?,
       accumulatedHourForAWeek: fields[2] as int?,
-      latestTimestamp: fields[3] as int,
+      latestTimestamp: fields[3] as int?,
     );
   }
 

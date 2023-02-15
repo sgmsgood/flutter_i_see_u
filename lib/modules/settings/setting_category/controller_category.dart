@@ -41,7 +41,15 @@ class CategoryController extends GetxController {
   @override
   void onInit() {
     getCategoryListFromHive();
+    initCategoryEditController();
     super.onInit();
+  }
+
+  @override
+  void onReady() {
+    print("@!!-------1");
+    super.onReady();
+    print("@!!-------2");
   }
 
   @override
@@ -55,14 +63,16 @@ class CategoryController extends GetxController {
     super.onClose();
   }
 
-  getCategoryListFromHive() =>
-      categoriesList.value = _hiveManager.getBoxData(CategoryModel.boxName);
+  getCategoryListFromHive() {
+    List<CategoryModel> categoryListData = _hiveManager.getBoxData<CategoryModel>(CategoryModel.boxName).toList();
+    categoriesList.value = categoryListData.toList();
+  }
 
   initCategoryEditController() =>
-      categoryEditingController ??= TextEditingController();
+      categoryEditingController = TextEditingController();
 
   setSubCategoryControllerList() {
-    if(subCategoryEditingControllerList.isEmpty) {
+    if (subCategoryEditingControllerList.isEmpty) {
       initSubCategoryControllerList();
       return;
     }
@@ -75,7 +85,34 @@ class CategoryController extends GetxController {
     }
   }
 
+  void setCategoryName({String? name}) {
+    if (name == null) {
+      return;
+    }
+
+    _categoryName.value = name;
+  }
+
   void setCurrentStepIndex(int index) => _editCurrentIndex.value = index;
+
+  void saveCategoryName() {
+    var categoryName = categoryEditingController?.text ?? '';
+
+    if (categoryName.isEmpty) {
+      return;
+    }
+
+    _hiveManager.save<CategoryModel>(CategoryModel.boxName, categoryName,
+        CategoryModel(categoryName: categoryName));
+  }
+
+  void saveSubCategory(int index, String subCategoryName) {
+    if (subCategoryName.isEmpty) {
+      return;
+    }
+
+    // _hiveManager.save<CategoryModel>(CategoryModel.boxName, categoryName, CategoryModel(categoryName: categoryName));
+  }
 }
 
 enum CategoryArguments {

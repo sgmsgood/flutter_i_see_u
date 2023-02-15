@@ -92,7 +92,7 @@ class CategoryPage extends GetView<CategoryController> {
             children: [
               IconButton(
                   onPressed: () {
-                    // controller.setCategoryName();
+                    controller.initCategoryEditController();
                     Get.toNamed(Routes.editCategory);
                   },
                   style: IconButton.styleFrom(
@@ -152,7 +152,15 @@ class CategoryPage extends GetView<CategoryController> {
                 width: double.infinity,
                 height: 80.h,
                 child: Card(
-                  child: Text(e.categoryName),
+                  child: Row(
+                    children: [
+                      Text(e.categoryName),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.delete_forever),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
