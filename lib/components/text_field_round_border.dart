@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TextFieldRoundBorder extends StatelessWidget {
-  TextEditingController? editingController;
+  String? initialText;
   String? hintText;
   Color? focusBorderColor;
   Color? enableBorderColor;
@@ -9,7 +9,7 @@ class TextFieldRoundBorder extends StatelessWidget {
   VoidCallback? onTapOutside;
 
   TextFieldRoundBorder(
-      {this.editingController,
+      {this.initialText,
       this.hintText,
       this.focusBorderColor,
       this.enableBorderColor,
@@ -21,7 +21,7 @@ class TextFieldRoundBorder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: editingController,
+      initialValue: initialText,
       decoration: InputDecoration(
           enabledBorder:
               OutlineInputBorder(borderRadius: BorderRadius.circular(8)),

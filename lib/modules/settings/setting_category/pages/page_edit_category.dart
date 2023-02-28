@@ -38,7 +38,7 @@ class EditCategoryPage extends GetView<CategoryController> {
                   content: Container(
                     width: 300.w,
                     alignment: Alignment.topLeft,
-                    child: _buildAddCategory(controller.categoryNameValue),
+                    child: _buildAddCategory(controller.specificCategoryName.categoryName),
                   ),
                 ),
                 _buildStep(
@@ -62,7 +62,7 @@ class EditCategoryPage extends GetView<CategoryController> {
     return Column(
       children: [
         TextFieldRoundBorder(
-          editingController: controller.categoryEditingController,
+          initialText: categoryName,
           hintText: categoryName == '' ? '추가할 카테고리를 입력하세요.' : categoryName,
         ),
         Row(
@@ -82,8 +82,6 @@ class EditCategoryPage extends GetView<CategoryController> {
   }
 
   Widget _buildAddSubCategory() {
-    print(
-        "@!!---->>>controller.subCategoriesListValue: ${controller.subCategoriesListValue.length} vs ${controller.subCategoryEditingControllerList.length}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
@@ -92,11 +90,12 @@ class EditCategoryPage extends GetView<CategoryController> {
           shrinkWrap: true,
           itemBuilder: (context, index) => Form(
             child: AddListInputForm(
-              // editingController:
-              //     controller.subCategoryEditingControllerList[i],
+              initialText: controller.specificCategoryName.subCategories,
               hintText: 'gg',
               onRemoveEvent: () {},
-              onChangedEvent: (v) {},
+              onChangedEvent: (value) {
+                controller.saveSubCategory(value);
+              },
             ),
           ),
           itemCount: controller.subCategoriesListValue.length + 1,
@@ -105,7 +104,7 @@ class EditCategoryPage extends GetView<CategoryController> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextButton(
-              onPressed: () {},
+              onPressed: controller.addSubcategory,
               child: const Text('추가'),
             ),
             TextButton(

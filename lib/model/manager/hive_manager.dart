@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_i_see_u/model/category.dart';
+import 'package:flutter_i_see_u/model/subcategory.dart';
 import 'package:hive_flutter/adapters.dart';
 
 class HiveManager {
@@ -13,10 +14,12 @@ class HiveManager {
 
   static Future<void> _registerAdapters() async {
     Hive.registerAdapter(CategoryModelAdapter());
+    Hive.registerAdapter(SubCategoryModelAdapter());
   }
 
   static Future<void> _openAllBox<T extends HiveObject>() async {
     await Hive.openBox<CategoryModel>(CategoryModel.boxName);
+    await Hive.openBox<SubCategoryModel>(SubCategoryModel.boxName);
   }
 
   static Future<void> closeAll() async {
@@ -27,9 +30,14 @@ class HiveManager {
     return Hive.box(boxName);
   }
 
-  Future<void> save<T extends HiveObject>(
+  Future<void> saveWithKey<T extends HiveObject>(
       String boxName, String key, T data) async {
     await Hive.box<T>(boxName).put(key, data);
+  }
+
+  Future<void> saveAutoKey<T extends HiveObject>(
+      String boxName, T data) async {
+    await Hive.box<T>(boxName).add(data);
   }
 
   Future<void> saveList<T extends HiveObject>(

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i_see_u/components/button_icon_square_opacity.dart';
+import 'package:flutter_i_see_u/model/subcategory.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'text_field_round_border.dart';
 
 class AddListInputForm extends StatelessWidget {
-  TextEditingController? editingController;
+  List<SubCategoryModel>? initialText;
   String? hintText;
   Color? focusBorderColor;
   Color? enableBorderColor;
@@ -14,8 +15,8 @@ class AddListInputForm extends StatelessWidget {
   VoidCallback? onRemoveEvent;
 
   AddListInputForm(
-      {this.editingController,
-      this.hintText,
+      {this.hintText,
+      this.initialText,
       this.focusBorderColor,
       this.enableBorderColor,
       this.onChangedEvent,
@@ -33,18 +34,17 @@ class AddListInputForm extends StatelessWidget {
             Expanded(
               flex: 9,
               child: TextFormField(
+                initialValue: initialText?.first.subcategoryName,
                 autofocus: false,
                 textInputAction: TextInputAction.done,
-                controller: editingController,
                 decoration: InputDecoration(
-                    hintText: (editingController?.text.isEmpty ?? true)
-                        ? '하위 카테고리를 입력해주세요.'
-                        : '',
+                    hintText: '하위 카테고리를 입력해주세요.',
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8)),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8))),
-                validator: (value){},
+                validator: (value) {},
+                onChanged: onChangedEvent,
               ),
             ),
             SizedBox(

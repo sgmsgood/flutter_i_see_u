@@ -92,7 +92,6 @@ class CategoryPage extends GetView<CategoryController> {
             children: [
               IconButton(
                   onPressed: () {
-                    controller.initCategoryEditController();
                     Get.toNamed(Routes.editCategory);
                   },
                   style: IconButton.styleFrom(
@@ -145,27 +144,36 @@ class CategoryPage extends GetView<CategoryController> {
           .map(
             (e) => InkWell(
               onTap: () {
-                controller.setSubCategoryControllerList();
+                controller.getDataByCategoryName(e.categoryName);
                 Get.toNamed(Routes.editCategory);
               },
-              child: SizedBox(
+              child: Container(
                 width: double.infinity,
                 height: 80.h,
                 child: Card(
-                  child: Row(
-                    children: [
-                      Text(e.categoryName),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.delete_forever),
-                      ),
-                    ],
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(e.categoryName),
+                        _buildDeleteButton(e.categoryName),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           )
           .toList(),
+    );
+  }
+
+  Widget _buildDeleteButton(String categoryName) {
+    return IconButton(
+      onPressed: () => controller.removeCategory(categoryName),
+      icon: const Icon(Icons.delete_forever),
     );
   }
 }

@@ -38,18 +38,14 @@ class CategoryController extends GetxController {
 
   bool get isShowButton => _isShowButton.value;
 
+  late CategoryModel _specificCategoryName;
+
+  CategoryModel get specificCategoryName => _specificCategoryName;
+
   @override
   void onInit() {
     getCategoryListFromHive();
-    initCategoryEditController();
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    print("@!!-------1");
-    super.onReady();
-    print("@!!-------2");
   }
 
   @override
@@ -68,29 +64,22 @@ class CategoryController extends GetxController {
     categoriesList.value = categoryListData.toList();
   }
 
-  initCategoryEditController() =>
-      categoryEditingController = TextEditingController();
-
-  setSubCategoryControllerList() {
-    if (subCategoryEditingControllerList.isEmpty) {
-      initSubCategoryControllerList();
-      return;
-    }
-  }
-
-  initSubCategoryControllerList() {
-    for (var element in _subCategoriesList) {
-      subCategoryEditingControllerList
-          .add(TextEditingController(text: element.subcategoryName));
-    }
-  }
-
   void setCategoryName({String? name}) {
     if (name == null) {
       return;
     }
 
     _categoryName.value = name;
+  }
+
+  getDataByCategoryName(String categoryName) {
+    _specificCategoryName = categoriesList.firstWhere((element) => element.categoryName == categoryName);
+    update();
+  }
+
+
+  void addSubcategory() {
+    _subCategoriesList.add(SubCategoryModel(subcategoryName: ''));
   }
 
   void setCurrentStepIndex(int index) => _editCurrentIndex.value = index;
@@ -102,16 +91,21 @@ class CategoryController extends GetxController {
       return;
     }
 
-    _hiveManager.save<CategoryModel>(CategoryModel.boxName, categoryName,
+    _hiveManager.saveWithKey<CategoryModel>(CategoryModel.boxName, categoryName,
         CategoryModel(categoryName: categoryName));
   }
 
-  void saveSubCategory(int index, String subCategoryName) {
+  void saveSubCategory(String subCategoryName) {
     if (subCategoryName.isEmpty) {
       return;
     }
 
-    // _hiveManager.save<CategoryModel>(CategoryModel.boxName, categoryName, CategoryModel(categoryName: categoryName));
+    _hiveManager.saveAutoKey<SubCategoryModel>(SubCategoryModel.boxName, SubCategoryModel(subcategoryName: subCategoryName, latestTimestamp: DateTime.now().millisecond));
+  }
+
+  void removeCategory(String categoryName) {
+    _hiveManager.remove<CategoryModel>(CategoryModel.boxName, categoryName);
+    getCategoryListFromHive();
   }
 }
 

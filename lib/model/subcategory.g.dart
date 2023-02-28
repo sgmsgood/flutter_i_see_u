@@ -17,8 +17,7 @@ class SubCategoryModelAdapter extends TypeAdapter<SubCategoryModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return SubCategoryModel(
-      index: fields[0] as int?,
-      subcategoryName: fields[1] as String?,
+      subcategoryName: fields[1] as String,
       accumulatedHourForAWeek: fields[2] as int?,
       latestTimestamp: fields[3] as int?,
     );
@@ -27,14 +26,12 @@ class SubCategoryModelAdapter extends TypeAdapter<SubCategoryModel> {
   @override
   void write(BinaryWriter writer, SubCategoryModel obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.index)
-      ..writeByte(1)
-      ..write(obj.subcategoryName)
-      ..writeByte(2)
-      ..write(obj.accumulatedHourForAWeek)
       ..writeByte(3)
+      ..writeByte(0)
+      ..write(obj.subcategoryName)
+      ..writeByte(1)
+      ..write(obj.accumulatedHourForAWeek)
+      ..writeByte(2)
       ..write(obj.latestTimestamp);
   }
 
